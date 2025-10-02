@@ -110,10 +110,14 @@ export default function RegisterPage() {
         navigateToPlayground();
       }, 3000);
 
-    } catch (err: any) {
-      toast.error(err.message || "Terjadi kesalahan");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message || "Terjadi kesalahan");
+      } else {
+        toast.error("Terjadi kesalahan tidak diketahui");
+      }
       setLoading(false);
-    } 
+    }
   };
 
   return (

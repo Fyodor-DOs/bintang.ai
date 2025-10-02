@@ -172,7 +172,17 @@ export default function Home() {
           <p className="text-white text-lg mb-10">Bergabunglah dengan ribuan pengguna yang telah merasakan efisiensi luar biasa dengan bintang.ai</p>
           <div className="w-full flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button className="btn-yellow btn-nowrap" onClick={() => router.push('/register')}>Daftar Akun bintang.ai</button>
-            <button className="btn-white btn-nowrap">Lihat Template Workflow</button>
+            <button
+              className="btn-white btn-nowrap"
+              onClick={() =>
+                window.open(
+                  "https://n8n.io/workflows/?utm_source=n8n_app&utm_medium=template_library&utm_instance=https://playground.bintang.ai/&utm_n8n_version=1.93.0&utm_awc=11",
+                  "_blank"
+                )
+              }
+            >
+              Lihat Template Workflow
+            </button>
             <button className="btn-outline btn-nowrap">Jadwalkan Konsultasi</button>
           </div>
         </div>

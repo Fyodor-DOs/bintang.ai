@@ -1,10 +1,10 @@
 # bintang.ai Frontend
 
-Aplikasi frontend (Next.js) untuk platform bintang.ai. Semua proses backend seperti register terhubung langsung ke workflow n8n melalui HTTP/Webhook.
+Aplikasi frontend (Next.js) untuk platform **bintang.ai**. Semua proses backend seperti register terhubung langsung ke workflow **n8n** melalui HTTP/Webhook.
 
 ---
 
-## Cara Install & Menjalankan
+## 🚀 Cara Install & Menjalankan
 
 1. **Clone repository dan masuk ke folder frontend:**
    ```bash
@@ -15,11 +15,15 @@ Aplikasi frontend (Next.js) untuk platform bintang.ai. Semua proses backend sepe
    ```bash
    npm install
    ```
-3. **Jalankan development server:**
+3. **Build aplikasi untuk production:**
    ```bash
-   npm run dev
+   npm run build
    ```
-4. **Buka di browser:**
+4. **Jalankan aplikasi:**
+   ```bash
+   npm run start
+   ```
+5. **Buka di browser:**
    [http://localhost:3000](http://localhost:3000)
 
 ---
