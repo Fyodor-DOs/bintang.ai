@@ -1,0 +1,264 @@
+{
+  "name": "POST auth bintang.ai - boni&fath",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "register",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        180,
+        0
+      ],
+      "id": "ef2983ae-39bc-4a9b-b7b4-54877f5e569c",
+      "name": "Webhook",
+      "webhookId": "514af4f1-5e72-40fd-9549-6a30f070aad1"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ $('Webhook').item.json.body.email }}",
+            "password": "={{ $('Code1').item.json.hashed }}",
+            "first_name": "={{ $('Webhook').item.json.body.first_name }}",
+            "last_name": "={{ $('Webhook').item.json.body.last_name }}",
+            "phone": "={{ $('Webhook').item.json.body.phone }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "password",
+              "displayName": "password",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "first_name",
+              "displayName": "first_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "last_name",
+              "displayName": "last_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        920,
+        0
+      ],
+      "id": "5cb5e7da-ab9a-4707-8509-1831499544dd",
+      "name": "Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "kEMAPOvkJd0yXTIk",
+          "name": "team_andika"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://playground.bintang.ai/api/v1/users",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMjc5YjM2Mi0yMWY1LTQ1ZDYtYmU1Mi1lMWE1MjQ3MzczY2QiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzUyODk0MzMwLCJleHAiOjE3NjA1ODcyMDB9.z7MksC1vq1B0LPyhuuJpYC4gCi-6r_49V703rKvbTA0"
+            },
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMjc5YjM2Mi0yMWY1LTQ1ZDYtYmU1Mi1lMWE1MjQ3MzczY2QiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzUyODk0MzMwLCJleHAiOjE3NjA1ODcyMDB9.z7MksC1vq1B0LPyhuuJpYC4gCi-6r_49V703rKvbTA0"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "=[\n  {\n    \"first_name\": \"{{ $('Webhook').item.json.body.first_name }}\",\n    \"last_name\": \"{{ $('Webhook').item.json.body.last_name }}\",\n    \"email\": \"{{$('Webhook').item.json.body.email}}\",\n    \"phone\": \"{{ $('Webhook').item.json.body.phone }}\",\n    \"password\": \"{{ $json.hashed }}\"\n  }\n]\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "id": "73ebadd2-3e2f-4f2f-a2ee-7f0f8f768ce9",
+      "name": "HTTP Request (Get Invite ID)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://playground.bintang.ai/rest/invitations/{{ $('HTTP Request (Get Invite ID)').first().json.user.inviteAcceptUrl.match(/inviteeId=([^&]+)/)[1] }}/accept",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMjc5YjM2Mi0yMWY1LTQ1ZDYtYmU1Mi1lMWE1MjQ3MzczY2QiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzUyODk0MzMwLCJleHAiOjE3NjA1ODcyMDB9.z7MksC1vq1B0LPyhuuJpYC4gCi-6r_49V703rKvbTA0"
+            },
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMjc5YjM2Mi0yMWY1LTQ1ZDYtYmU1Mi1lMWE1MjQ3MzczY2QiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzUyODk0MzMwLCJleHAiOjE3NjA1ODcyMDB9.z7MksC1vq1B0LPyhuuJpYC4gCi-6r_49V703rKvbTA0"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"firstName\": \"{{ $json.first_name }}\",\n  \"lastName\": \"{{ $json.last_name }}\",\n  \"password\": \"{{ $('Webhook').item.json.body.password }}\",\n  \"inviterId\": \"{{ $('HTTP Request (Get Invite ID)').first().json.user.inviteAcceptUrl.match(/inviterId=([^&]+)/)[1] }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1140,
+        0
+      ],
+      "id": "811e400d-0917-4b7b-9219-ad8a69e0b93f",
+      "name": "HTTP Request (Accept Invitation)"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Native JavaScript SHA-256 hashing (tanpa require / crypto)\nfunction sha256(ascii) {\n  function rightRotate(value, amount) {\n    return (value >>> amount) | (value << (32 - amount));\n  }\n\n  const mathPow = Math.pow;\n  const maxWord = mathPow(2, 32);\n  let result = '';\n\n  const words = [];\n  const asciiBitLength = ascii.length * 8;\n\n  const hash = sha256.h = sha256.h || [];\n  const k = sha256.k = sha256.k || [];\n  let primeCounter = hash.length;\n\n  const isPrime = n => {\n    for (let i = 2, sqrt = Math.sqrt(n); i <= sqrt; i++) {\n      if (n % i === 0) return false;\n    }\n    return true;\n  };\n\n  const getFractionalBits = n => ((n - Math.floor(n)) * maxWord) | 0;\n\n  while (primeCounter < 64) {\n    let candidate = primeCounter + 2;\n    while (!isPrime(candidate)) candidate++;\n    hash[primeCounter] = getFractionalBits(Math.pow(candidate, 1 / 2));\n    k[primeCounter++] = getFractionalBits(Math.pow(candidate, 1 / 3));\n  }\n\n  ascii += '\\x80'; // Append Ƈ bit (plus zero padding)\n  while ((ascii.length % 64) - 56) ascii += '\\x00'; // More zero padding\n\n  for (let i = 0; i < ascii.length; i++) {\n    const j = ascii.charCodeAt(i);\n    words[i >> 2] |= j << ((3 - i) % 4) * 8;\n  }\n  words.push(((asciiBitLength / maxWord) | 0));\n  words.push((asciiBitLength));\n\n  for (let j = 0; j < words.length;) {\n    const w = words.slice(j, j += 16);\n    const oldHash = hash.slice(0);\n\n    for (let i = 0; i < 64; i++) {\n      const w15 = w[i - 15], w2 = w[i - 2];\n\n      const s0 = w15 ? (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) : 0;\n      const s1 = w2 ? (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10)) : 0;\n\n      w[i] = (w[i] || 0) + s0 + w[i - 7] + s1 | 0;\n\n      const [a, b, c, d, e, f, g, h] = hash;\n\n      const s1e = rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25);\n      const ch = (e & f) ^ (~e & g);\n      const temp1 = (h + s1e + ch + k[i] + w[i]) | 0;\n      const s0a = rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22);\n      const maj = (a & b) ^ (a & c) ^ (b & c);\n      const temp2 = (s0a + maj) | 0;\n\n      hash[0] = (temp1 + temp2) | 0;\n      hash[1] = a;\n      hash[2] = b;\n      hash[3] = c;\n      hash[4] = (d + temp1) | 0;\n      hash[5] = e;\n      hash[6] = f;\n      hash[7] = g;\n    }\n\n    for (let i = 0; i < 8; i++) {\n      hash[i] = (hash[i] + oldHash[i]) | 0;\n    }\n  }\n\n  for (let i = 0; i < 8; i++) {\n    for (let j = 3; j + 1; j--) {\n      const b = (hash[i] >> (j * 8)) & 255;\n      result += ((b < 16) ? '0' : '') + b.toString(16);\n    }\n  }\n\n  return result;\n}\n\n// Ambil password dari input body\nconst password = $input.first().json.body.password;\nconst hashedPassword = sha256(password);\n\n// Return hasil\nreturn [\n  {\n    json: {\n      password: password,\n      hashed: hashedPassword\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        0
+      ],
+      "id": "a26224dd-f7fb-482f-a963-3132477172f6",
+      "name": "Code1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (Accept Invitation)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (Get Invite ID)": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (Get Invite ID)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ce73ebef-74c8-4a45-be17-eefd2ffc19a3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "30f6a2298d696ae83c6617c86dad6adc73450f87dd73a9a110fe29b8c1169cdc"
+  },
+  "id": "8Euy9qTrbo6X5dBF",
+  "tags": []
+}

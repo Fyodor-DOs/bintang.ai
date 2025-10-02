@@ -1,0 +1,72 @@
+{
+  "name": "GET bintang.ai - boni&fath",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7003f86f-c105-4e98-a232-f4b81df073a9",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "users",
+          "mode": "list",
+          "cachedResultName": "users"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        220,
+        0
+      ],
+      "id": "d7eb9bcb-a54a-47b0-a4b9-31d81b8bfa1a",
+      "name": "Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "kEMAPOvkJd0yXTIk",
+          "name": "team_andika"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4b88dc3c-02a9-49ce-8803-02c16caf5bc7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "30f6a2298d696ae83c6617c86dad6adc73450f87dd73a9a110fe29b8c1169cdc"
+  },
+  "id": "qTnYgKQmBqG3YHCd",
+  "tags": []
+}
